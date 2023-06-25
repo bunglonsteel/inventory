@@ -4,5 +4,4 @@ application/logs/*
 !application/logs/.htaccess
 node_modules/
 application/config/database.php
-# public/image/
-# .gitignore
+public/image/
