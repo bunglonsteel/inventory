@@ -1,0 +1,14 @@
+{
+  "name": "themeatstuff",
+  "version": "1.0.0",
+  "description": "What is CodeIgniter ###################",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./public/front/css/input.css -o ./public/front/css/themeatstuff.css --watch"
+  },
+  "author": "asep supian tsaori",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
+  }
+}
