@@ -1,7 +1,7 @@
 <?php
 $data['button_top'] =
     '
-    <button id="copy" class="text-2xl text-gray-600 mr-2 relative" type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="bottom" data-url="<?= base_url(uri_string()); ?>">
+    <button id="copy" class="text-2xl text-gray-600 mr-2 relative" type="button" aria-label="copy url" data-tooltip-target="tooltip-copy" data-tooltip-placement="bottom" data-url="<?= base_url(uri_string()); ?>">
             <div id="copy-item" class="flex items-center">
                 <i class="bx bx-share-alt mr-1.5"></i>
                 <span class="text-sm font-bold">Copy</span>
@@ -16,7 +16,7 @@ $this->load->view('layouts/front/topbar_details', $data, FALSE); ?>
 
 <div class="h-full overflow-y-auto md:ovlow-y">
     <div class="carousel-product-details relative bg-white">
-        <img class="h-80 w-full object-cover rounded-b-3xl" src="<?= base_url() ?>public/image/products/<?= $product->image ?>" alt="<?= $product->name ?>">
+        <img loading="lazy" width="300" height="300" class="h-80 w-full object-cover rounded-b-3xl" src="<?= base_url() ?>public/image/products/<?= $product->image ?>" alt="<?= $product->name ?>">
         <div class="absolute bottom-3 left-3 bg-white rounded-xl py-2 px-4 shadow-lg">
             <span class="font-inter text-sm font-bold text-gray-600"><?= $product->category ?></span>
         </div>
@@ -26,7 +26,7 @@ $this->load->view('layouts/front/topbar_details', $data, FALSE); ?>
         <!-- Breadcrumb -->
         <ol class="inline-flex items-center space-x-1 md:space-x-3 mb-1">
             <li class="inline-flex items-center">
-                <a href="<?= base_url() ?>" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-400 ">
+                <a href="<?= base_url() ?>" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-400" aria-label="beranda">
                     <i class='bx bx-home mr-2'></i>
                     Beranda
                 </a>
@@ -71,19 +71,13 @@ $this->load->view('layouts/front/topbar_details', $data, FALSE); ?>
         <h3 class="text-lg text-gray-600 font-bold font-inter mb-3">Tersedia Juga di Platform</h3>
         <div class="flex mb-3">
             <?php foreach ($ecommerce as $shop) : ?>
-                <a href="<?= $shop->link ?>" target="_BLANK" class="flex-1 mx-1 w-32">
-                    <img class="border border-slate-100 rounded-md w-full object-cover" src="<?= base_url(); ?>public/image/general/<?= $shop->image ?>" alt="<?= $shop->platform ?>">
+                <a href="<?= $shop->link ?>" target="_BLANK" class="flex-1 mx-1 w-32" aria-label="<?= $shop->platform ?>">
+                    <img loading="lazy" width="200" height="200" class="border border-slate-100 rounded-md w-full object-cover" src="<?= base_url(); ?>public/image/general/<?= $shop->image ?>" alt="<?= $shop->platform ?>">
                 </a>
             <?php endforeach; ?>
-            <!-- <a href="https://shopee.co.id/themeatstuff" target="_BLANK" class="flex-1 mx-1 w-32">
-                <img class="border border-slate-100 rounded-md w-full object-cover" src="<?= base_url(); ?>public/image/default/shopee.jpg" alt="shopee">
-            </a>
-            <a href="https://grab.onelink.me/2695613898?pid=inappsharing&c=6-C3V3EUD2VNXCCX&is_retargeting=true&af_dp=grab%3A%2F%2Fopen%3FscreenType%3DGRABMART%26sourceID%3DA4pcqCZkS4%26merchantIDs%3D6-C3V3EUD2VNXCCX&af_force_deeplink=true&af_web_dp=https%3A%2F%2Fwww.grab.com%2Fdownload" target="_BLANK" class="flex-1 mx-1 w-32">
-                <img class="border border-slate-100 rounded-md w-full object-cover" src="<?= base_url(); ?>public/image/default/grabmart.jpg" alt="grabmart">
-            </a> -->
         </div>
         <h3 class="text-lg text-gray-600 font-bold font-inter mb-3">Deskripsi Produk</h3>
-        <div>
+        <div style="white-space:pre-line">
             <?= $product->description ?>
         </div>
     </div>
@@ -94,11 +88,11 @@ $this->load->view('layouts/front/topbar_details', $data, FALSE); ?>
             <div id="list-product" class="py-2">
                 <?php foreach ($more_products as $product) : ?>
                     <div class="bg-white w-44 md:w-56 mr-4 mt-3 mb-4 rounded-lg p-3 drop-shadow-lg">
-                        <a href="<?= base_url('produk/') ?><?= $product->slug ?>">
-                            <img class="max-h-40 h-28 md:h-40 h w-full object-cover rounded-lg h" src="<?= base_url('public/image/products/') ?><?= $product->image ?>" alt="" />
+                        <a href="<?= base_url('produk/') ?><?= $product->slug ?>" aria-label="<?= $product->name ?>">
+                            <img loading="lazy" width="300" height="300" class="max-h-40 h-28 md:h-40 h w-full object-cover rounded-lg h" src="<?= base_url('public/image/products/') ?><?= $product->image ?>" alt="" />
                         </a>
                         <div class="pt-3">
-                            <a href="<?= base_url('produk/') ?><?= $product->slug ?>">
+                            <a href="<?= base_url('produk/') ?><?= $product->slug ?>" aria-label="<?= $product->name ?>">
                                 <h4 class="mb-2 text-md font-bold leading-5 text-gray-600 text-limit-2 font-sans-pro"><?= $product->name ?></h4>
                             </a>
                             <span class=" block font-bold text-gray-500"><?= "Rp. " . number_format($product->price, 0, ',', '.'); ?></span>

@@ -3,7 +3,7 @@
 <div class="wrapper h-full overflow-y-auto md:ovlow-y">
     <div id="banner" class="flex bg-white p-4 mt-[3.8rem] mb-2 overflow-x-hidden carousel">
         <?php foreach ($banners as $banner) : ?>
-            <img class="h-32 cursor-pointer w-72 object-cover rounded-xl mr-3 border border-gray-200" src="<?= base_url('public/image/banner/') ?><?= $banner->banner ?>" alt="<?= $banner->name ?>">
+            <img width="300" height="300" class="h-32 cursor-pointer w-72 object-cover rounded-xl mr-3 border border-gray-200" src="<?= base_url('public/image/banner/') ?><?= $banner->banner ?>" alt="<?= $banner->name ?>">
         <?php endforeach; ?>
     </div>
 
@@ -61,7 +61,7 @@
                         ->join('product_details as pd', 'p.product_id = pd.product_id')
                         ->join('product_categories as pc', 'p.categories_id = pc.categories_id')
                         ->where('pc.categories_id', $cat->id)
-                        ->order_by('p.product_id', 'desc')
+                        ->order_by('rand()')
                         ->limit(4)
                         ->get()
                         ->result();
@@ -70,7 +70,7 @@
                         <?php foreach ($products as $prod) : ?>
                             <div class="bg-white rounded-lg p-3 drop-shadow-lg">
                                 <a href="<?= base_url('produk/' . $prod->slug) ?>">
-                                    <img loading="lazy" class="max-h-40 h-28 md:h-40 h w-full object-cover rounded-lg h" src="<?= base_url('public/image/products/' . $prod->image) ?>" alt="" />
+                                    <img width="300" height="300" loading="lazy" class="max-h-40 h-28 md:h-40 h w-full object-cover rounded-lg h" src="<?= base_url('public/image/products/' . $prod->image) ?>" alt="" />
                                 </a>
                                 <div class="pt-2">
                                     <a href="<?= base_url('produk/' . $prod->slug) ?>">
@@ -84,7 +84,7 @@
                     <div class="px-3 py-2 mb-3">
                         <?php if (count($products) <= 0) : ?>
                             <div class="flex flex-col items-center bg-white rounded-lg py-6">
-                                <img class="mb-2 w-18 block" src="<?= base_url() ?>public/image/default/no-data.png" alt="">
+                                <img width="300" height="300" loading="lazy" class="mb-2 w-18 block" src="<?= base_url() ?>public/image/default/no-data.png" alt="">
                                 <span class="text-gray-400 block">Produk belum tersedia😣</span>
                             </div>
                         <?php endif; ?>

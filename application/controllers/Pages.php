@@ -10,16 +10,17 @@ class Pages extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Guest_model', 'guest');
+        $this->load->model('Settings_model', 'settings');
+        $this->general = json_decode($this->db->get_where("settings", ['option_name' => "general"])->row()->option_value);
     }
 
     public function index()
     {
-        $data['socmed']     = json_decode($this->db->get_where("settings", ['option_name' => "socmed"])->row()->option_value);
-        $data['categories'] = $this->guest->get_categories();
-        // var_dump($data['socmed']);
-        // die;
-        $data['banners']    = $this->guest->get_banner();
-        $data['title']      = 'Monitoring';
+        $data['socmed']      = json_decode($this->db->get_where("settings", ['option_name' => "socmed"])->row()->option_value);
+        $data['categories']  = $this->guest->get_categories();
+        $data['banners']     = $this->guest->get_banner();
+        $data['title']       = $this->general->site_title;
+        $data['description'] = $this->general->description;
         render_template('pages/home', $data);
     }
 
@@ -31,10 +32,9 @@ class Pages extends CI_Controller
         } else {
             $this->load->model('Settings_model', 'settings');
             $data['ecommerce']     = json_decode($this->settings->find(['option_name' => "ecommerce"])->option_value);
-            // var_dump($data['ecommerce']);
-            // die;
             $data['title']         = $check->name;
             $data['product']       = $check;
+            $data['description']   = mb_substr($check->description, 0, 150);
             $data['more_products'] = $this->guest->get_more_products();
             render_template('pages/product_details', $data);
         }
@@ -94,14 +94,16 @@ class Pages extends CI_Controller
             ];
             return $this->output->set_content_type('application/json')->set_output(json_encode($result));
         }
-        $data['categories'] = $this->guest->get_categories();
-        $data['title']      = 'Monitoring';
+        $data['categories']  = $this->guest->get_categories();
+        $data['title']       = 'Produk';
+        $data['description'] = $this->general->description;
         render_template('pages/products', $data);
     }
 
     public function about()
     {
-        $data['title'] = 'Tentang kami';
+        $data['title']       = 'Tentang kami';
+        $data['description'] = '';
         render_template('pages/about', $data);
     }
 }

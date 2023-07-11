@@ -9,13 +9,13 @@
     <meta name="description" content>
     <meta property="og:title" content="<?= $title ?>" />
     <meta property="og:keywords" content />
-    <meta property="og:description" content />
+    <meta property="og:description" content="<?= $description ?>" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="<?= base_url(uri_string()); ?>" />
     <meta property="og:site_name" content="TheMeatStuff" />
-    <meta property="og:image" content="#" />
+    <meta property="og:image" content="<?= base_url('public/image/default/') . $this->general->logo ?>" />
     <link rel="canonical" href="<?= base_url(uri_string()); ?>">
-    <link rel="icon" type="image/x-icon" href="#">
+    <link rel="icon" type="image/x-icon" href="<?= base_url('public/image/default/') . $this->general->logo ?>">
 
     <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
