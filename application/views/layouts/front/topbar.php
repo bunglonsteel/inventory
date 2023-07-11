@@ -1,6 +1,6 @@
 <header class="absolute top-0 z-10 w-full border-b border-slate-200 flex items-center py-2 px-3 bg-white">
     <a href="<?= base_url() ?>" aria-label="<?= $this->general->site_title ?>">
-        <img class="w-11 ml-2" src="<?= base_url('public/image/default/') . $this->general->logo ?>" alt="<?= $this->general->site_title ?>">
+        <img loading="lazy" width="80" height="80" class="w-11 ml-2" src="<?= base_url('public/image/default/') . $this->general->logo ?>" alt="<?= $this->general->site_title ?>">
     </a>
     <div class="ml-auto">
         <a href="<?= base_url('produk') ?>" class="text-2xl text-gray-500 mr-2" aria-label="search">

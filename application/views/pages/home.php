@@ -3,7 +3,7 @@
 <div class="wrapper h-full overflow-y-auto md:ovlow-y">
     <div id="banner" class="flex bg-white p-4 mt-[3.8rem] mb-2 overflow-x-hidden carousel">
         <?php foreach ($banners as $banner) : ?>
-            <img width="300" height="300" class="h-32 cursor-pointer w-72 object-cover rounded-xl mr-3 border border-gray-200" src="<?= base_url('public/image/banner/') ?><?= $banner->banner ?>" alt="<?= $banner->name ?>">
+            <img loading="lazy" width="250" height="300" class="h-32 cursor-pointer w-72 object-cover rounded-xl mr-3 border border-gray-200" src="<?= base_url('public/image/banner/') ?><?= $banner->banner ?>" alt="<?= $banner->name ?>">
         <?php endforeach; ?>
     </div>
 

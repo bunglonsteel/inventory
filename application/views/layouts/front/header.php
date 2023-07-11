@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?></title>
     <meta name="keywords" content>
-    <meta name="description" content>
+    <meta name="description" content="<?= $description ?>">
     <meta property="og:title" content="<?= $title ?>" />
     <meta property="og:keywords" content />
     <meta property="og:description" content="<?= $description ?>" />
@@ -17,10 +17,10 @@
     <link rel="canonical" href="<?= base_url(uri_string()); ?>">
     <link rel="icon" type="image/x-icon" href="<?= base_url('public/image/default/') . $this->general->logo ?>">
 
-    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css'>
+    <link id="icon" rel='stylesheet'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Sans+Pro:ital,wght@400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url() ?>public/front/css/slick.min.css" />
     <link rel="stylesheet" href="<?= base_url() ?>public/front/css/themeatstuff.css" />
     <meta name="<?= $this->security->get_csrf_token_name() ?>" content="<?= $this->security->get_csrf_hash() ?>">

@@ -88,6 +88,7 @@
             });
 
             $(".carousel button").remove();
+            $('link[id="icon"]').attr('href', 'https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css')
         });
     </script>
     </body>
