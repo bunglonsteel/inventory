@@ -20,7 +20,6 @@ class Reports extends CI_Controller
     {
         if ($this->input->is_ajax_request()) {
             $result      = $this->reports->result_data();
-            // var_dump($result);die;
             $sales   = [];
             $grand_total = 0;
             foreach ($result as $res) {
@@ -30,7 +29,6 @@ class Reports extends CI_Controller
                 $row[] = "Rp. " . htmlspecialchars(number_format($res->total, 0, ',', '.'));
                 $sales[] = $row;
             }
-            // var_dump($sales);die;
             $output = [
                 "draw"            => $_POST['draw'],
                 "recordsTotal"    => $this->reports->count_all_result(),
@@ -46,7 +44,6 @@ class Reports extends CI_Controller
         $data['sales_by_year']    = $this->reports->sales('year');
         $data['expense_by_month'] = $this->reports->expenses('month');
         $data['expense_by_year']  = $this->reports->expenses('year');
-        // var_dump(json_encode($data['sales_by_month']));die;
         $data['title'] = "Laporan Penjualan";
         render_template_admin('admin/reports/sales', $data);
     }
@@ -63,7 +60,6 @@ class Reports extends CI_Controller
                 $row[] = '<strong class="' . $class . '">' . htmlspecialchars($res->current_stock) . '</strong>';
                 $product_stock[] = $row;
             }
-            // var_dump($product_stock);die;
             $output = [
                 "draw"            => $_POST['draw'],
                 "recordsTotal"    => $this->reports->count_all_result('stock'),
@@ -80,7 +76,6 @@ class Reports extends CI_Controller
     public function send_whatsapp()
     {
         $this->load->helper('settings_helper');
-        $this->load->model('Settings_model', 'settings');
 
         $this->form_validation->set_rules(
             'whatsapp',
@@ -96,7 +91,7 @@ class Reports extends CI_Controller
                 'csrf_hash' => $this->security->get_csrf_hash(),
             ];
         } else {
-            $no_whatsapp = $this->input->post('whatsapp');
+            $no_whatsapp = strip_tags(htmlspecialchars($this->input->post('whatsapp') ?? ''));
             $token       = $this->settings->find(['option_name' => 'whatsapp_api'])->option_value;
             $message     = '';
 

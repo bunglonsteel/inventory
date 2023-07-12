@@ -22,7 +22,6 @@ class Stock extends CI_Controller
     {
         if ($this->input->is_ajax_request()) {
             $result = $this->stock->result_data();
-            // var_dump($result);die;
             $temp_data = [];
 
             foreach ($result as $res) {
@@ -62,11 +61,11 @@ class Stock extends CI_Controller
             $this->_rules();
 
             $payload = [
-                'target_id'     => strip_tags(htmlentities($this->input->post('target', TRUE))),
-                'product_id'    => strip_tags(htmlentities($this->input->post('product', TRUE))),
-                'qty'           => strip_tags(htmlentities($this->input->post('qty', TRUE))),
-                'stock_type'    => strip_tags(htmlentities($this->input->post('type', TRUE))),
-                'stock_notes'   => strip_tags(htmlentities($this->input->post('notes', TRUE))),
+                'target_id'     => strip_tags(htmlspecialchars($this->input->post('target', TRUE) ?? '')),
+                'product_id'    => strip_tags(htmlspecialchars($this->input->post('product', TRUE) ?? '')),
+                'qty'           => strip_tags(htmlspecialchars($this->input->post('qty', TRUE) ?? '')),
+                'stock_type'    => strip_tags(htmlspecialchars($this->input->post('type', TRUE) ?? '')),
+                'stock_notes'   => strip_tags(htmlspecialchars($this->input->post('notes', TRUE) ?? '')),
             ];
 
             if ($type == "add") {

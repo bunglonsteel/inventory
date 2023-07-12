@@ -41,8 +41,6 @@ class Sales extends CI_Controller
                 'DELIVERED'     => 'bg-label-primary'
             ];
             foreach ($result as $res) {
-                // var_dump($res->date);
-                // die;
                 $row = [];
                 $row[] = htmlspecialchars($res->invoice);
                 $row[] = '  <div class="d-flex align-items-center flex-wrap flex-lg-nowrap">
@@ -96,8 +94,8 @@ class Sales extends CI_Controller
         }
         if ($this->input->is_ajax_request()) {
             $search = array(
-                'keyword' => trim(htmlspecialchars($this->input->post('search_key', TRUE))),
-                'categories' => trim(htmlspecialchars($this->input->post('categories', TRUE))),
+                'keyword' => trim(htmlspecialchars($this->input->post('search_key', TRUE) ?? '')),
+                'categories' => trim(htmlspecialchars($this->input->post('categories', TRUE) ?? '')),
             );
 
             $this->load->library('pagination');
@@ -161,14 +159,13 @@ class Sales extends CI_Controller
                 ->set_rules('method_pay', 'Metode Pembayaran', 'trim|required|callback_select_null');
 
             $payload = [
-                'customer'   => trim(htmlentities($this->input->post('customer', TRUE))),
-                'diskon'     => trim(htmlentities($this->input->post('diskon_all', TRUE))),
-                'shipping'   => trim(htmlentities($this->input->post('shipping', TRUE))),
-                'amount_pay' => trim(htmlentities($this->input->post('amount_pay', TRUE))),
-                'method_pay' => trim(htmlentities($this->input->post('method_pay', TRUE))),
-                'notes'      => trim(htmlentities($this->input->post('notes', TRUE))),
+                'customer'   => strip_tags(htmlspecialchars($this->input->post('customer', TRUE) ?? '')),
+                'diskon'     => strip_tags(htmlspecialchars($this->input->post('diskon_all', TRUE) ?? '')),
+                'shipping'   => strip_tags(htmlspecialchars($this->input->post('shipping', TRUE) ?? '')),
+                'amount_pay' => strip_tags(htmlspecialchars($this->input->post('amount_pay', TRUE) ?? '')),
+                'method_pay' => strip_tags(htmlspecialchars($this->input->post('method_pay', TRUE) ?? '')),
+                'notes'      => strip_tags(htmlspecialchars($this->input->post('notes', TRUE) ?? '')),
             ];
-            // var_dump();die;
             if ($this->form_validation->run() == FALSE) {
                 $output = [
                     'error'     => 'true',
@@ -251,16 +248,16 @@ class Sales extends CI_Controller
     {
         $payload = [
             'target'       => $target,
-            'invoice'      => trim(htmlentities($this->input->post('inv', TRUE))),
-            'customer'     => trim(htmlentities($this->input->post('customer', TRUE))),
-            'date'         => trim(htmlentities($this->input->post('date', TRUE))),
-            'discount'     => trim(htmlentities($this->input->post('discount_all', TRUE))),
-            'shipping'     => trim(htmlentities($this->input->post('shipping', TRUE))),
-            'order_status' => trim(htmlentities($this->input->post('order_status', TRUE))),
-            'method_pay'   => trim(htmlentities($this->input->post('method_pay', TRUE))),
+            'invoice'      => strip_tags(htmlspecialchars($this->input->post('inv', TRUE))),
+            'customer'     => strip_tags(htmlspecialchars($this->input->post('customer', TRUE))),
+            'date'         => strip_tags(htmlspecialchars($this->input->post('date', TRUE))),
+            'discount'     => strip_tags(htmlspecialchars($this->input->post('discount_all', TRUE))),
+            'shipping'     => strip_tags(htmlspecialchars($this->input->post('shipping', TRUE))),
+            'order_status' => strip_tags(htmlspecialchars($this->input->post('order_status', TRUE))),
+            'method_pay'   => strip_tags(htmlspecialchars($this->input->post('method_pay', TRUE))),
             'amount_pay'   => 0,
-            'status_pay'   => trim(htmlentities($this->input->post('status_pay', TRUE))),
-            'notes'        => trim(htmlentities($this->input->post('notes', TRUE))),
+            'status_pay'   => strip_tags(htmlspecialchars($this->input->post('status_pay', TRUE))),
+            'notes'        => strip_tags(htmlspecialchars($this->input->post('notes', TRUE))),
         ];
         $this->_action($action, $payload);
     }
@@ -280,8 +277,6 @@ class Sales extends CI_Controller
             } else if ($action == "update") {
 
                 $target = $this->sales->get_sales_by_id($payload['target']);
-                // var_dump($target);
-                // die;
                 if ($target) {
                     $this->cart->product_name_rules = '\w \-\.\/\%\:';
                     if (!$this->cart->contents()) {
@@ -642,7 +637,7 @@ class Sales extends CI_Controller
         if (!$this->input->is_ajax_request()) {
             show_404('No direct script access allowed');
         } else {
-            $payload = trim(htmlentities($this->input->post('catalog_id', true)));
+            $payload = strip_tags(htmlspecialchars($this->input->post('catalog_id', true) ?? ''));
             $product = $this->products->get_product_id($payload);
 
             if ($product && $product->current_stock > 0) {
@@ -680,10 +675,10 @@ class Sales extends CI_Controller
             show_404('No direct script access allowed');
         } else {
             $payload = [
-                'id'        => trim(htmlentities($this->input->post('rowid', true))),
-                'type'      => trim(htmlentities($this->input->post('type', true))),
-                'qty'       => trim(htmlentities($this->input->post('qty', true))),
-                'diskon'    => $this->input->post('diskon_item', true) ? trim(htmlentities($this->input->post('diskon_item', true))) : 0,
+                'id'        => strip_tags(htmlspecialchars($this->input->post('rowid', true))),
+                'type'      => strip_tags(htmlspecialchars($this->input->post('type', true))),
+                'qty'       => strip_tags(htmlspecialchars($this->input->post('qty', true))),
+                'diskon'    => strip_tags(htmlspecialchars($this->input->post('diskon_item', true))) ?? 0,
             ];
             $check = $this->cart->get_item($payload['id']);
             if ($check) {
@@ -758,7 +753,7 @@ class Sales extends CI_Controller
             show_404('No direct script access allowed');
         } else {
 
-            $rowid = trim(htmlentities($this->input->post('rowid', true)));
+            $rowid = strip_tags(htmlspecialchars($this->input->post('rowid', true) ?? ''));
 
             if ($type === 'destroy') {
                 $this->cart->destroy();
@@ -797,9 +792,9 @@ class Sales extends CI_Controller
         } else {
             if ($type === 'cart') {
                 $payload = [
-                    'discount'  => trim(htmlentities($this->input->post('discount', true))),
-                    'shipping'  => trim(htmlentities($this->input->post('shipping', true))),
-                    'subtotal'  => trim(htmlentities($this->input->post('subtotal', true))),
+                    'discount'  => strip_tags(htmlspecialchars($this->input->post('discount', true) ?? '')),
+                    'shipping'  => strip_tags(htmlspecialchars($this->input->post('shipping', true) ?? '')),
+                    'subtotal'  => strip_tags(htmlspecialchars($this->input->post('subtotal', true) ?? '')),
                 ];
 
                 $result = ($this->cart->total() - (float) $payload['discount']) + (float) $payload['shipping'];
@@ -807,8 +802,8 @@ class Sales extends CI_Controller
 
             if ($type === 'pay') {
                 $payload = [
-                    'pay'  => trim(htmlentities($this->input->post('amount_pay', true))),
-                    'total'  => trim(htmlentities($this->input->post('total', true))),
+                    'pay'  => strip_tags(htmlspecialchars($this->input->post('amount_pay', true) ?? '')),
+                    'total'  => strip_tags(htmlspecialchars($this->input->post('total', true) ?? '')),
                 ];
                 $result = (float) $payload['pay'] - (float) $payload['total'];
             }
@@ -854,8 +849,8 @@ class Sales extends CI_Controller
     function amount_pay($str)
     {
         $payload = [
-            'diskon'     => (float) trim(htmlentities($this->input->post('diskon_all', TRUE))),
-            'shipping'   => (float) trim(htmlentities($this->input->post('shipping', TRUE))),
+            'diskon'     => (float) strip_tags(htmlspecialchars($this->input->post('diskon_all', TRUE) ?? '')),
+            'shipping'   => (float) strip_tags(htmlspecialchars($this->input->post('shipping', TRUE) ?? '')),
         ];
         $total = ($this->cart->total() - $payload['diskon']) + $payload['shipping'];
 
@@ -882,7 +877,7 @@ class Sales extends CI_Controller
         if (!$this->input->is_ajax_request()) {
             show_404();
         } else {
-            $target = strip_tags(htmlspecialchars($id));
+            $target = strip_tags(htmlspecialchars($id ?? ''));
             $result = $this->sales->get_sales_by_id($target);
             if (!$result) {
                 $message = [
@@ -905,8 +900,6 @@ class Sales extends CI_Controller
     public function invoice($order_id)
     {
         $order = $this->sales->get_sales_by_id($order_id);
-        // echo json_encode($order);
-        // die;
         if (!$order) {
             show_404();
         } else {

@@ -19,9 +19,9 @@ class Auth extends CI_Controller
 		if ($this->form_validation->run() == false) {
 			$this->load->view('login');
 		} else {
-			$email = strip_tags(html_escape($this->input->post('email', TRUE)));
+			$email    = strip_tags(html_escape($this->input->post('email', TRUE)));
 			$password = strip_tags(html_escape($this->input->post('password', TRUE)));
-			$user = $this->db->get_where('users', ['email' => $email])->row_array();
+			$user     = $this->db->get_where('users', ['email' => $email])->row_array();
 
 			if ($user && $user['user_type'] == 'superadmin' || $user['user_type'] == 'administrator') {
 				if (password_verify($password, $user['password'])) {
@@ -29,7 +29,7 @@ class Auth extends CI_Controller
 						if ($user['is_login'] == 1) {
 							$data = [
 								'email' => $user['email'],
-								'name' => $user['name'],
+								'name'  => $user['name'],
 							];
 							$this->session->set_userdata($data);
 							redirect('admin/dashboard');

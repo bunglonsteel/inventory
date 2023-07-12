@@ -63,11 +63,11 @@ class Supplier extends CI_Controller
             $this->_rules();
 
             $payload = [
-                "id"       => strip_tags(htmlentities($this->input->post('target', TRUE))),
-                "supplier" => strip_tags(htmlentities($this->input->post('supplier', TRUE))),
-                "company"  => strip_tags(htmlentities($this->input->post('company', TRUE))),
-                "contact"  => strip_tags(htmlentities($this->input->post('contact', TRUE))),
-                "address"  => strip_tags(htmlentities($this->input->post('address', TRUE))),
+                "id"       => strip_tags(htmlspecialchars($this->input->post('target', TRUE) ?? '')),
+                "supplier" => strip_tags(htmlspecialchars($this->input->post('supplier', TRUE) ?? '')),
+                "company"  => strip_tags(htmlspecialchars($this->input->post('company', TRUE) ?? '')),
+                "contact"  => strip_tags(htmlspecialchars($this->input->post('contact', TRUE) ?? '')),
+                "address"  => strip_tags(htmlspecialchars($this->input->post('address', TRUE) ?? '')),
             ];
 
             if ($type == "add") {
@@ -202,7 +202,7 @@ class Supplier extends CI_Controller
         if (!$this->input->is_ajax_request()) {
             show_404();
         } else {
-            $target = strip_tags(htmlspecialchars($id));
+            $target = strip_tags(htmlspecialchars($id ?? ''));
             $result = $this->supplier->get_supplier_id($target);
             if (!$result) {
                 $message = [

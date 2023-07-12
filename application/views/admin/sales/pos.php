@@ -222,7 +222,7 @@
 
                                 <label class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
                                 <select class="form-select mb-2" name="method_pay">
-                                    <option value="" disabled selected>Choose...</option>
+                                    <option value="" hidden>Choose...</option>
                                     <?php foreach ($payments as $pay) : ?>
                                         <option value="<?= $pay->payment_mode_id ?>"><?= $pay->payment_name ?></option>
                                     <?php endforeach; ?>

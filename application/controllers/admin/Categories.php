@@ -60,13 +60,11 @@ class Categories extends CI_Controller
         } else {
             $this->_rules();
 
-            $cat_id = strip_tags(htmlspecialchars($this->input->post('target', TRUE)));
-            $cat_name = strip_tags(htmlspecialchars($this->input->post('category_name', TRUE)));
+            $cat_id = strip_tags(htmlspecialchars($this->input->post('target', TRUE) ?? ''));
+            $cat_name = strip_tags(htmlspecialchars($this->input->post('category_name', TRUE) ?? ''));
             // Slug handle
-            $slug = strip_tags(htmlspecialchars($this->input->post('slug', TRUE)));
-            $slug = preg_replace('/[^\-\sa-zA-Z0-9]+/', '', mb_strtolower($slug));
-            $slug = preg_replace('/[\-\s]+/', '-', $slug);
-            $cat_slug = preg_replace('/(-(?!.*-)[^\/]*)/', '', $slug);
+            $slug = strip_tags(htmlspecialchars($this->input->post('slug', TRUE) ?? ''));
+            $cat_slug = url_title($slug, 'dash', true);
 
             if ($type == "add") {
                 $message = $this->_add_categories($cat_name, $cat_slug);
@@ -150,7 +148,6 @@ class Categories extends CI_Controller
             ];
         } else {
             $check_products = $this->categories->get_products_by_category($cat_id);
-            // var_dump($check_products);die;
             if ($check_products) {
                 return [
                     'error' => 'true',
@@ -189,7 +186,7 @@ class Categories extends CI_Controller
         if (!$this->input->is_ajax_request()) {
             show_404();
         } else {
-            $target = strip_tags(htmlspecialchars($id));
+            $target = strip_tags(htmlspecialchars($id ?? ''));
             $result = $this->categories->get_category_id($target);
             if (!$result) {
                 $message = [
@@ -215,7 +212,6 @@ class Categories extends CI_Controller
             show_404();
         } else {
             $result = $this->categories->get();
-            // var_dump($result);die;
             if (!$result) {
                 $message = [
                     'errors' => 'true',

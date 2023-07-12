@@ -80,29 +80,27 @@ class Products extends CI_Controller
 
             $this->load->library('upload', $config);
             // Slug handle
-            $slug        = strip_tags(htmlspecialchars($this->input->post('slug', TRUE)));
-            $slug        = preg_replace('/[^\-\sa-zA-Z0-9]+/', '', mb_strtolower($slug));
-            $slug        = preg_replace('/[\-\s]+/', '-', $slug);
-            $result_slug = preg_replace('/(-(?!.*-)[^\/]*)/', '', $slug);
+            $slug        = strip_tags(htmlspecialchars($this->input->post('slug', TRUE) ?? ''));
+            $result_slug = url_title($slug, 'dash', true);
 
             $data = [
                 "image"              => isset($_FILES['image']['name']) ? $_FILES['image']['name'] : null,
-                "target"             => strip_tags(htmlspecialchars($this->input->post('target', TRUE))),
-                "name"               => strip_tags(htmlspecialchars($this->input->post('name', TRUE))),
+                "target"             => strip_tags(htmlspecialchars($this->input->post('target', TRUE) ?? '')),
+                "name"               => strip_tags(htmlspecialchars($this->input->post('name', TRUE) ?? '')),
                 'slug'               => $result_slug,
-                "sku"                => strip_tags(htmlspecialchars($this->input->post('sku', TRUE))),
-                "barcode"            => strip_tags(htmlspecialchars($this->input->post('barcode', TRUE))),
-                "supplier"           => strip_tags(htmlspecialchars($this->input->post('supplier', TRUE))),
-                "category"           => strip_tags(htmlspecialchars($this->input->post('category', TRUE))),
-                "unit"               => strip_tags(htmlspecialchars($this->input->post('unit', TRUE))),
-                "stock"              => strip_tags(htmlspecialchars($this->input->post('stock', TRUE))),
-                "purchase"           => strip_tags(htmlspecialchars($this->input->post('purchase', TRUE))),
-                "selling"            => strip_tags(htmlspecialchars($this->input->post('selling', TRUE))),
-                "product_weight"     => strip_tags(htmlspecialchars($this->input->post('product_weight', TRUE))),
-                "storage_type"       => strip_tags(htmlspecialchars($this->input->post('storage_type', TRUE))),
-                "storage_period"     => strip_tags(htmlspecialchars($this->input->post('storage_period', TRUE))),
-                "storage_conditions" => strip_tags(htmlspecialchars($this->input->post('storage_conditions', TRUE))),
-                "desc"               => strip_tags(htmlspecialchars($this->input->post('description', TRUE))),
+                "sku"                => strip_tags(htmlspecialchars($this->input->post('sku', TRUE) ?? '')),
+                "barcode"            => strip_tags(htmlspecialchars($this->input->post('barcode', TRUE) ?? '')),
+                "supplier"           => strip_tags(htmlspecialchars($this->input->post('supplier', TRUE) ?? '')),
+                "category"           => strip_tags(htmlspecialchars($this->input->post('category', TRUE) ?? '')),
+                "unit"               => strip_tags(htmlspecialchars($this->input->post('unit', TRUE) ?? '')),
+                "stock"              => strip_tags(htmlspecialchars($this->input->post('stock', TRUE) ?? '')),
+                "purchase"           => strip_tags(htmlspecialchars($this->input->post('purchase', TRUE) ?? '')),
+                "selling"            => strip_tags(htmlspecialchars($this->input->post('selling', TRUE) ?? '')),
+                "product_weight"     => strip_tags(htmlspecialchars($this->input->post('product_weight', TRUE) ?? '')),
+                "storage_type"       => strip_tags(htmlspecialchars($this->input->post('storage_type', TRUE) ?? '')),
+                "storage_period"     => strip_tags(htmlspecialchars($this->input->post('storage_period', TRUE) ?? '')),
+                "storage_conditions" => strip_tags(htmlspecialchars($this->input->post('storage_conditions', TRUE) ?? '')),
+                "desc"               => strip_tags(htmlspecialchars($this->input->post('description', TRUE) ?? '')),
             ];
             if ($type == "add") {
                 $message = $this->_add_product($data);
@@ -323,9 +321,8 @@ class Products extends CI_Controller
         if ($str == 0) {
             $this->form_validation->set_message('handle_select', '{field} tidak boleh kosong.');
             return FALSE;
-        } else {
-            return TRUE;
         }
+        return TRUE;
     }
 
     public function get_product(String $id = '')
@@ -333,7 +330,7 @@ class Products extends CI_Controller
         if (!$this->input->is_ajax_request()) {
             show_404();
         } else {
-            $target = strip_tags(htmlspecialchars($id));
+            $target = strip_tags(htmlspecialchars($id ?? ''));
             $result = $this->products->get_product_id($target);
 
             if (!$result) {
@@ -360,7 +357,6 @@ class Products extends CI_Controller
             show_404();
         } else {
             $result = $this->products->get();
-            // var_dump($result);die;
             if (!$result) {
                 $message = [
                     'errors' => 'true',

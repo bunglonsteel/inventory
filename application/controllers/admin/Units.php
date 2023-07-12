@@ -64,9 +64,9 @@ class Units extends CI_Controller
         } else {
             $this->_rules();
 
-            $unit_id = strip_tags(htmlspecialchars($this->input->post('target', TRUE)));
-            $unit_name = strip_tags(htmlspecialchars($this->input->post('unit_name', TRUE)));
-            $unit_type = strip_tags(htmlspecialchars($this->input->post('unit_type', TRUE)));
+            $unit_id   = strip_tags(htmlspecialchars($this->input->post('target', TRUE) ?? ''));
+            $unit_name = strip_tags(htmlspecialchars($this->input->post('unit_name', TRUE) ?? ''));
+            $unit_type = strip_tags(htmlspecialchars($this->input->post('unit_type', TRUE) ?? ''));
 
             if ($type == "add") {
                 $message = $this->_add_unit($unit_name, $unit_type);
@@ -188,7 +188,7 @@ class Units extends CI_Controller
         if (!$this->input->is_ajax_request()) {
             show_404();
         } else {
-            $target = strip_tags(htmlspecialchars($id));
+            $target = strip_tags(htmlspecialchars($id ?? ''));
             $result = $this->units->get_unit_id($target);
             if (!$result) {
                 $message = [

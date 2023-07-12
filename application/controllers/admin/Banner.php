@@ -67,29 +67,29 @@ class Banner extends CI_Controller
             $config['encrypt_name']     = TRUE;
 
             $this->load->library('upload', $config);
-            $payload = [
-                "target" => strip_tags(htmlspecialchars($this->input->post('target', TRUE))),
-                "name"   => strip_tags(htmlspecialchars($this->input->post('banner_name', TRUE))),
-                "active" => strip_tags(htmlspecialchars($this->input->post('active', TRUE))),
+            $params = [
+                "target" => strip_tags(htmlspecialchars($this->input->post('target', TRUE) ?? '')),
+                "name"   => strip_tags(htmlspecialchars($this->input->post('banner_name', TRUE) ?? '')),
+                "active" => strip_tags(htmlspecialchars($this->input->post('active', TRUE) ?? '')),
             ];
 
             if ($type == "add") {
-                $message = $this->_add_banner($payload);
+                $message = $this->_add_banner($params);
             }
 
             if ($type == "edit") {
-                $message = $this->_update_banner($payload);
+                $message = $this->_update_banner($params);
             }
 
             if ($type == "delete") {
-                $message = $this->_remove_banner($payload['target']);
+                $message = $this->_remove_banner($params['target']);
             }
 
             echo json_encode($message);
         }
     }
 
-    private function _add_banner($payload)
+    private function _add_banner($params)
     {
         if ($this->form_validation->run() == FALSE) {
             $message =  [
@@ -103,9 +103,9 @@ class Banner extends CI_Controller
         } else {
             if ($this->upload->do_upload('image')) {
                 $data = [
-                    'banner_name'  => $payload['name'],
+                    'banner_name'  => $params['name'],
                     'banner_image' => $this->upload->data('file_name'),
-                    'is_active'    => $payload['active'],
+                    'is_active'    => $params['active'],
                 ];
                 $this->banner->insert($data);
                 $message =  [
@@ -124,7 +124,7 @@ class Banner extends CI_Controller
         return $message;
     }
 
-    private function _update_banner($payload)
+    private function _update_banner($params)
     {
         if ($this->form_validation->run() == FALSE) {
             $message =  [
@@ -136,11 +136,11 @@ class Banner extends CI_Controller
                 'csrf_hash' => $this->security->get_csrf_hash(),
             ];
         } else {
-            $check = $this->db->get_where('banner', ['banner_id' => $payload['target']])->row();
+            $check = $this->db->get_where('banner', ['banner_id' => $params['target']])->row();
             if ($check) {
                 $data = [
-                    'banner_name' => $payload['name'],
-                    'is_active'   => $payload['active'],
+                    'banner_name' => $params['name'],
+                    'is_active'   => $params['active'],
                 ];
 
                 if (!$this->input->post('image')) {
@@ -208,7 +208,7 @@ class Banner extends CI_Controller
         if (!$this->input->is_ajax_request()) {
             show_404();
         } else {
-            $target = strip_tags(htmlspecialchars($id));
+            $target = strip_tags(htmlspecialchars($id ?? ''));
             $result = $this->db->get_where('banner', ['banner_id' => $target])->row();
             if (!$result) {
                 $message = [

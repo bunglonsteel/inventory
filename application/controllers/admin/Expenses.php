@@ -102,13 +102,13 @@ class Expenses extends CI_Controller
             $this->_rules($type);
 
             $payload = [
-                "target"   => strip_tags(htmlspecialchars($this->input->post('target', TRUE))),
-                "category" => strip_tags(htmlspecialchars($this->input->post('category', TRUE))),
-                "desc"     => strip_tags(htmlspecialchars($this->input->post('desc', TRUE))),
+                "target"   => strip_tags(htmlspecialchars($this->input->post('target', TRUE) ?? '')),
+                "category" => strip_tags(htmlspecialchars($this->input->post('category', TRUE) ?? '')),
+                "desc"     => strip_tags(htmlspecialchars($this->input->post('desc', TRUE) ?? '')),
             ];
             if ($type == "ex") {
-                $payload["amount"] = strip_tags(htmlspecialchars($this->input->post('amount', TRUE)));
-                $payload["date"]   = strip_tags(htmlspecialchars($this->input->post('date', TRUE)));
+                $payload["amount"] = strip_tags(htmlspecialchars($this->input->post('amount', TRUE) ?? ''));
+                $payload["date"]   = strip_tags(htmlspecialchars($this->input->post('date', TRUE) ?? ''));
             }
 
             if ($action == "add") {
@@ -297,7 +297,7 @@ class Expenses extends CI_Controller
         if (!$this->input->is_ajax_request()) {
             show_404();
         } else {
-            $target = strip_tags(htmlspecialchars($id));
+            $target = strip_tags(htmlspecialchars($id ?? ''));
             if ($type == "ex") {
                 $result = $this->expenses->get_by_id($type, ['expense_id' => $target], true);
             } else {

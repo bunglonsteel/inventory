@@ -78,14 +78,14 @@ class Users extends CI_Controller
             $this->_rules();
 
             $payload = [
-                "id"        => strip_tags(htmlentities($this->input->post('target', TRUE))),
-                "name"      => strip_tags(htmlentities($this->input->post('name', TRUE))),
-                "email"     => strip_tags(htmlentities($this->input->post('email', TRUE))),
-                "password"  => strip_tags(htmlentities($this->input->post('password', TRUE))),
-                "contact"   => strip_tags(htmlentities($this->input->post('contact', TRUE))),
-                "role"      => strip_tags(htmlentities($this->input->post('type', TRUE))),
-                "is_login"  => strip_tags(htmlentities($this->input->post('is_login', TRUE))),
-                "is_active" => strip_tags(htmlentities($this->input->post('is_active', TRUE))),
+                "id"        => strip_tags(htmlentities($this->input->post('target', TRUE) ?? '')),
+                "name"      => strip_tags(htmlentities($this->input->post('name', TRUE) ?? '')),
+                "email"     => strip_tags(htmlentities($this->input->post('email', TRUE) ?? '')),
+                "password"  => strip_tags(htmlentities($this->input->post('password', TRUE) ?? '')),
+                "contact"   => strip_tags(htmlentities($this->input->post('contact', TRUE) ?? '')),
+                "role"      => strip_tags(htmlentities($this->input->post('type', TRUE) ?? '')),
+                "is_login"  => strip_tags(htmlentities($this->input->post('is_login', TRUE) ?? '')),
+                "is_active" => strip_tags(htmlentities($this->input->post('is_active', TRUE) ?? '')),
             ];
 
             if ($type == "add") {
@@ -192,7 +192,7 @@ class Users extends CI_Controller
 
     private function _remove_user($id)
     {
-        $user = $this->users->find(['uuid' => base64_decode(htmlspecialchars($id))]);
+        $user = $this->users->find(['uuid' => base64_decode(htmlspecialchars($id ?? ''))]);
         if (!$user) {
             $output = [
                 'error'     => 'true',

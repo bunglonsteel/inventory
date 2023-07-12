@@ -106,13 +106,13 @@ class Settings extends CI_Controller
     {
         $payload = [
             "logo"        => isset($_FILES['image']['name']) ? $_FILES['image']['name'] : null,
-            "site"        => trim(htmlentities($this->input->post('site_title', TRUE))),
-            "keywords"    => trim(htmlentities($this->input->post('keywords', TRUE))),
-            "desc"        => trim(htmlentities($this->input->post('desc', TRUE))),
-            "bank_an"     => trim(htmlentities($this->input->post('bank_an', TRUE))),
-            "bank_number" => trim(htmlentities($this->input->post('bank_number', TRUE))),
-            "number"      => trim(htmlentities($this->input->post('number', TRUE))),
-            "address"     => trim(htmlentities($this->input->post('address', TRUE))),
+            "site"        => strip_tags(htmlspecialchars($this->input->post('site_title', TRUE) ?? '')),
+            "keywords"    => strip_tags(htmlspecialchars($this->input->post('keywords', TRUE) ?? '')),
+            "desc"        => strip_tags(htmlspecialchars($this->input->post('desc', TRUE) ?? '')),
+            "bank_an"     => strip_tags(htmlspecialchars($this->input->post('bank_an', TRUE) ?? '')),
+            "bank_number" => strip_tags(htmlspecialchars($this->input->post('bank_number', TRUE) ?? '')),
+            "number"      => strip_tags(htmlspecialchars($this->input->post('number', TRUE) ?? '')),
+            "address"     => strip_tags(htmlspecialchars($this->input->post('address', TRUE) ?? '')),
         ];
 
         $this->form_validation->set_rules('site_title', 'Judul situs', 'trim|required');
@@ -144,9 +144,7 @@ class Settings extends CI_Controller
                 "number_phone" => $payload['number'],
                 "address"      => $payload['address'],
             ];
-            // var_dump($data);die;
             if ($payload['logo']) {
-
                 $this->_validate_upload();
 
                 if ($this->upload->do_upload('image')) {
@@ -183,9 +181,9 @@ class Settings extends CI_Controller
     private function _account()
     {
         $payload = [
-            "old_password" => trim(htmlentities($this->input->post('old_password', TRUE))),
-            "new_password" => trim(htmlentities($this->input->post('old_password', TRUE))),
-            "re_password"  => trim(htmlentities($this->input->post('old_password', TRUE))),
+            "old_password" => strip_tags(htmlspecialchars($this->input->post('old_password', TRUE) ?? '')),
+            "new_password" => strip_tags(htmlspecialchars($this->input->post('old_password', TRUE) ?? '')),
+            "re_password"  => strip_tags(htmlspecialchars($this->input->post('old_password', TRUE) ?? '')),
         ];
 
         $this->form_validation->set_rules('old_password', 'Password Lama', 'trim|required');
@@ -234,9 +232,9 @@ class Settings extends CI_Controller
     private function _socmed($target = "")
     {
         $payload = [
-            "name" => trim(htmlentities($this->input->post('name', TRUE))),
-            "icon" => trim(htmlentities($this->input->post('icon', TRUE))),
-            "url"  => trim(htmlentities($this->input->post('url', TRUE))),
+            "name" => strip_tags(htmlspecialchars($this->input->post('name', TRUE) ?? '')),
+            "icon" => strip_tags(htmlspecialchars($this->input->post('icon', TRUE) ?? '')),
+            "url"  => strip_tags(htmlspecialchars($this->input->post('url', TRUE) ?? '')),
         ];
 
         $this->form_validation->set_rules('name', 'Nama social media', 'trim|required');
@@ -324,8 +322,8 @@ class Settings extends CI_Controller
     {
         $payload = [
             "image"    => isset($_FILES['image']['name']) ? $_FILES['image']['name'] : NULL,
-            "platform" => trim(htmlentities($this->input->post('platform', TRUE))),
-            "url"      => trim(htmlentities($this->input->post('url', TRUE))),
+            "platform" => strip_tags(htmlspecialchars($this->input->post('platform', TRUE) ?? '')),
+            "url"      => strip_tags(htmlspecialchars($this->input->post('url', TRUE) ?? '')),
         ];
 
         $this->form_validation->set_rules('platform', 'Platform', 'trim|required');
@@ -429,8 +427,8 @@ class Settings extends CI_Controller
 
     private function _token()
     {
-        $no_whatsapp = trim(htmlentities($this->input->post('no_whatsapp', TRUE)));
-        $token       = trim(htmlentities($this->input->post('token_whatsapp', TRUE)));
+        $no_whatsapp = strip_tags(htmlspecialchars($this->input->post('no_whatsapp', TRUE) ?? ''));
+        $token       = strip_tags(htmlspecialchars($this->input->post('token_whatsapp', TRUE) ?? ''));
 
         $this->form_validation->set_rules('no_whatsapp', 'Token', 'trim|required|numeric');
         $this->form_validation->set_rules('token_whatsapp', 'Token', 'trim|required');
@@ -476,5 +474,4 @@ class Settings extends CI_Controller
         $this->load->library('upload', $config);
     }
 }
-// [{"key":"1","name":"Facebook","icon":"bxl-facebook","link":"https:\/\/facebook.com"},{"key":"2","name":"Instagram","icon":"bxl-instagram","link":"https:\/\/instagram.com"},{"key":"3","name":"Tiktok","icon":"bxl-tiktok","link":"https:\/\/tiktok.com"},{"key":"4","name":"Whatsapp","icon":"bxl-whatsapp","link":"https:\/\/whatsapp.com"},{"key":"a067e7e7","name":"sfdf","icon":"sdfs","link":"afsdf"}]
 /* End of file Settings.php */
