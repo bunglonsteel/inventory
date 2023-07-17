@@ -93,15 +93,15 @@ class Reports extends CI_Controller
         } else {
             $no_whatsapp = strip_tags(htmlspecialchars($this->input->post('whatsapp') ?? ''));
             $token       = $this->settings->find(['option_name' => 'whatsapp_api'])->option_value;
-            $message     = '';
+            $message     = "Current Product Stock \n\n";
 
             foreach ($stocks as $stock) {
                 $message .= $stock->product_name . ": ( " . $stock->current_stock . " ),\n";
             }
 
-            $respoonse = json_decode(send_whastapp_message($token, $no_whatsapp, $message));
+            $response = json_decode(send_whastapp_message($token, $no_whatsapp, $message));
 
-            if ($respoonse->status) {
+            if ($response->status) {
                 $output = [
                     'success'   => 'true',
                     'message'   => 'Laporan berhasil terkirim.',
@@ -110,7 +110,7 @@ class Reports extends CI_Controller
             } else {
                 $output = [
                     'error'     => 'true',
-                    'message'   => $respoonse->reason,
+                    'message'   => $response->reason,
                     'csrf_hash' => $this->security->get_csrf_hash(),
                 ];
             }
