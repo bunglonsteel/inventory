@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="card-body">
                         <span class="fw-semibold d-block mb-1">Penjualan Bulan Ini</span>
-                        <h3 class="card-title mb-1"><?= "Rp. " . htmlspecialchars(number_format($sales_by_month->total,0,',','.')) ?></h3>
+                        <h3 class="card-title mb-1"><?= "Rp. " . htmlspecialchars(number_format($sales_by_month->total ?? 0,0,',','.')) ?></h3>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 <div class="card">
                     <div class="card-body">
                         <span class="fw-semibold d-block mb-1">Penjualan Tahun Ini</span>
-                        <h3 class="card-title mb-1"><?= "Rp. " . htmlspecialchars(number_format($sales_by_year->total,0,',','.')) ?></h3>
+                        <h3 class="card-title mb-1"><?= "Rp. " . htmlspecialchars(number_format($sales_by_year->total ?? 0,0,',','.')) ?></h3>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="card">
                     <div class="card-body">
                         <span class="fw-semibold d-block mb-1">Pengeluaran Bulan Ini</span>
-                        <h3 class="card-title mb-1"><?= "Rp. " . htmlspecialchars(number_format($expense_by_month->total,0,',','.')) ?></h3>
+                        <h3 class="card-title mb-1"><?= "Rp. " . htmlspecialchars(number_format($expense_by_month->total ?? 0,0,',','.')) ?></h3>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 <div class="card">
                     <div class="card-body">
                         <span class="fw-semibold d-block mb-1">Pengeluaran Tahun Ini</span>
-                        <h3 class="card-title mb-1"><?= "Rp. " . htmlspecialchars(number_format($expense_by_year->total,0,',','.')) ?></h3>
+                        <h3 class="card-title mb-1"><?= "Rp. " . htmlspecialchars(number_format($expense_by_year->total ?? 0,0,',','.')) ?></h3>
                     </div>
                 </div>
             </div>
