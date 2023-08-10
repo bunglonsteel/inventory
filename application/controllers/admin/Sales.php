@@ -252,7 +252,7 @@ class Sales extends CI_Controller
             'customer'     => strip_tags(htmlspecialchars($this->input->post('customer', TRUE) ?? '')),
             'date'         => strip_tags(htmlspecialchars($this->input->post('date', TRUE) ?? '')),
             'discount'     => strip_tags(htmlspecialchars($this->input->post('discount_all', TRUE) ?? '')),
-            'shipping'     => strip_tags(htmlspecialchars($this->input->post('shipping', TRUE))),
+            'shipping'     => strip_tags(htmlspecialchars($this->input->post('shipping', TRUE) ?? '')),
             'order_status' => strip_tags(htmlspecialchars($this->input->post('order_status', TRUE) ?? '')),
             'method_pay'   => strip_tags(htmlspecialchars($this->input->post('method_pay', TRUE) ?? '')),
             'amount_pay'   => 0,
