@@ -248,16 +248,16 @@ class Sales extends CI_Controller
     {
         $payload = [
             'target'       => $target,
-            'invoice'      => strip_tags(htmlspecialchars($this->input->post('inv', TRUE))),
-            'customer'     => strip_tags(htmlspecialchars($this->input->post('customer', TRUE))),
-            'date'         => strip_tags(htmlspecialchars($this->input->post('date', TRUE))),
-            'discount'     => strip_tags(htmlspecialchars($this->input->post('discount_all', TRUE))),
+            'invoice'      => strip_tags(htmlspecialchars($this->input->post('inv', TRUE) ?? '')),
+            'customer'     => strip_tags(htmlspecialchars($this->input->post('customer', TRUE) ?? '')),
+            'date'         => strip_tags(htmlspecialchars($this->input->post('date', TRUE) ?? '')),
+            'discount'     => strip_tags(htmlspecialchars($this->input->post('discount_all', TRUE) ?? '')),
             'shipping'     => strip_tags(htmlspecialchars($this->input->post('shipping', TRUE))),
-            'order_status' => strip_tags(htmlspecialchars($this->input->post('order_status', TRUE))),
-            'method_pay'   => strip_tags(htmlspecialchars($this->input->post('method_pay', TRUE))),
+            'order_status' => strip_tags(htmlspecialchars($this->input->post('order_status', TRUE) ?? '')),
+            'method_pay'   => strip_tags(htmlspecialchars($this->input->post('method_pay', TRUE) ?? '')),
             'amount_pay'   => 0,
-            'status_pay'   => strip_tags(htmlspecialchars($this->input->post('status_pay', TRUE))),
-            'notes'        => strip_tags(htmlspecialchars($this->input->post('notes', TRUE))),
+            'status_pay'   => strip_tags(htmlspecialchars($this->input->post('status_pay', TRUE) ?? '')),
+            'notes'        => strip_tags(htmlspecialchars($this->input->post('notes', TRUE) ?? '')),
         ];
         $this->_action($action, $payload);
     }
@@ -675,10 +675,10 @@ class Sales extends CI_Controller
             show_404('No direct script access allowed');
         } else {
             $payload = [
-                'id'        => strip_tags(htmlspecialchars($this->input->post('rowid', true))),
-                'type'      => strip_tags(htmlspecialchars($this->input->post('type', true))),
-                'qty'       => strip_tags(htmlspecialchars($this->input->post('qty', true))),
-                'diskon'    => strip_tags(htmlspecialchars($this->input->post('diskon_item', true))) ?? 0,
+                'id'        => strip_tags(htmlspecialchars($this->input->post('rowid', true) ?? '')),
+                'type'      => strip_tags(htmlspecialchars($this->input->post('type', true) ?? '')),
+                'qty'       => strip_tags(htmlspecialchars($this->input->post('qty', true) ?? '')),
+                'diskon'    => strip_tags(htmlspecialchars($this->input->post('diskon_item', true) ?? '')) ?? 0,
             ];
             $check = $this->cart->get_item($payload['id']);
             if ($check) {
