@@ -314,7 +314,7 @@
                 var categories = $("#select-categories").val() || '';
 
                 var data = 'search_key=' + search_key + '&categories=' + categories + '&csrf_token=' + csrf.attr('content');
-                var base_url = '<?= base_url('admin/sales/pos') ?>';
+                var base_url = '<?= base_url('admin/sales/products') ?>';
 
                 if (page_url == false) {
                     var page_url = base_url;

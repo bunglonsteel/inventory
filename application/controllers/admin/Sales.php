@@ -92,6 +92,13 @@ class Sales extends CI_Controller
         if ($this->cart->contents()) {
             $this->cart->destroy();
         }
+        $data['payments'] = $this->sales->get_payment_method();
+        $data['title']    = 'Point Of Sales';
+        $this->load->view('admin/sales/pos', $data);
+    }
+
+    public function products()
+    {
         if ($this->input->is_ajax_request()) {
             $search = array(
                 'keyword' => trim(htmlspecialchars($this->input->post('search_key', TRUE) ?? '')),
@@ -103,7 +110,7 @@ class Sales extends CI_Controller
             $limit = 12;
             $offset = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 
-            $config['base_url']    = site_url('admin/sales/pos');
+            $config['base_url']    = site_url('admin/sales/products');
             $config['total_rows']  = $this->products->get_products($limit, $offset, $search, $count = true);
             $config['per_page']    = $limit;
             $config['uri_segment'] = 4;
@@ -143,9 +150,6 @@ class Sales extends CI_Controller
             ];
             return $this->output->set_content_type('application/json')->set_output(json_encode($result));
         }
-        $data['payments'] = $this->sales->get_payment_method();
-        $data['title']    = 'Point Of Sales';
-        $this->load->view('admin/sales/pos', $data);
     }
 
     public function pay()
@@ -348,13 +352,6 @@ class Sales extends CI_Controller
             ];
         } else {
 
-            if ($payload['status_pay'] == "UNPAID" && $payload['order_status'] == "DELIVERED") {
-                return [
-                    'error'     => 'true',
-                    'message'   => 'Order status tidak boleh terkirim jika status pembayaran masih belum dibayar.',
-                    'csrf_hash' => $this->security->get_csrf_hash()
-                ];
-            }
             $grand_total = ($this->cart->total() - $payload['discount']) + $payload['shipping'];
             $user        = $this->users->find(['uuid' => base64_decode($payload['customer'])]);
             $data_order  = [
@@ -921,6 +918,8 @@ class Sales extends CI_Controller
                 'csrf_hash' => $this->security->get_csrf_hash()
             ];
         } else {
+            // var_dump($order);
+            // die;
             if ($order->contact) {
                 $token       = $this->settings->find(['option_name' => 'whatsapp_api'])->option_value;
 
@@ -934,9 +933,9 @@ class Sales extends CI_Controller
 
                 foreach ($order->items as $items) {
                     $sub_total += $items->subtotal;
-                    $message .= $items->quantity . "x " . $items->product . " @Rp. " . number_format($order->total_amount, 0, ',', '.') . "\n\n";
+                    $message .= $items->quantity . "x " . $items->product . " @Rp. " . number_format($items->subtotal, 0, ',', '.') . "\n\n";
                 }
-
+                $sub_total = "Rp. " . number_format($sub_total, 0, ',', '.');
                 $message .= "\nTotal harga barang : $sub_total\nOngkos kirim : $shipping\nTotal yang harus dibayar : $grand_total\n\nBCA $bank_number A.N $bank_an\n\nHarap mengirimkan foto bukti transfer kepada kami. Thank you so much, have a blissful day!🥰";
 
                 $respoonse = json_decode(send_whastapp_message($token, $order->contact, $message));
